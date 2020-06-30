@@ -7,8 +7,6 @@ var httpProxy = require('http-proxy');
 var API_HOST = process.env.API_HOST || 'localhost:3000'
 var PORT = process.env.SERVER_PORT  ||  '3001';
 var open = require('open');
-const { json } = require('body-parser');
-const { Stream } = require('stream');
 
 // Initialize
 // var app = express();
@@ -27,13 +25,12 @@ const { Stream } = require('stream');
 //   });
 
 
-
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const name = "yourfile.js";
 app.get('/api/getcontentfile', (req, res) => {
-//   res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Content-Type', 'application/json');
    fs.readFile( __dirname + "/" + name, 'utf8', (err, data) =>{
         //    console.log( data );
            if(err) console.log(err);
@@ -44,14 +41,16 @@ app.get('/api/getcontentfile', (req, res) => {
         });
 
 });
+
 app.post('/api/savefile', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    const data = req.body;
-    console.log(data);
-    //  fs.writeFile(name,data,err=>{
-    //      if(err) console.log(err);
-    //      console.log("update succeffule");
-    //  })
+    const data = JSON.stringify(req.body);
+     fs.writeFile(name,data,(err)=>{
+         if(err) console.log(err);
+         res.send({
+             message:" succefful update file"
+         })
+     })
   
   });
 app.listen(PORT, () =>

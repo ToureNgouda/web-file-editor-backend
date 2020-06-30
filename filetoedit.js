@@ -1,11 +1,11 @@
 var express = require('express');
- var compression = require('compression');
+var compression = require('compression');
 const bodyParser = require('body-parser');
 var fs = require('fs');
 var open = require('open')
 var httpProxy = require('http-proxy');
 var API_HOST = process.env.API_HOST || 'localhost:3000'
-var PORT = process.env.SERVER_PORT  ||  '3001';
+var PORT = process.env.SERVER_PORT || '3001';
 var open = require('open');
 
 // Initialize
@@ -31,28 +31,30 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const name = "filetoedit.js";
 app.get('/api/getcontentfile', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-   fs.readFile( __dirname + "/" + name, 'utf8', (err, data) =>{
+    res.setHeader('Content-Type', 'application/json');
+    fs.readFile(__dirname + "/" + name, 'utf8', (err, data) => {
         //    console.log( data );
-           if(err) console.log(err);
-           res.send(JSON.stringify({
-            name:name,   
+        if (err) console.log(err);
+        res.send(JSON.stringify({
+            name: name,
             content: data,
-         }));
-        });
+        }));
+    });
 
 });
 
 app.post('/api/savefile', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    const data = req.content;
-     fs.writeFile(name,data,(err)=>{
-         if(err) console.log(err);
-         console.log("update succeffule");
-     })
-  
-  });
+    const data = JSON.stringify(req.body);
+    fs.writeFile(name, data, (err) => {
+        if (err) console.log(err);
+        res.send({
+            message: " succefful update file"
+        })
+    })
+
+});
 app.listen(PORT, () =>
-  console.log('Express server is running on localhost:'+PORT)
+    console.log('Express server is running on localhost:' + PORT)
 );
 // open('http://localhost:3000')
