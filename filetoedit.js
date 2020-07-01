@@ -24,10 +24,7 @@ appfront.all('/api/*', function (req, res) {
 appfront.get('*', function (req, res) {
     res.sendfile("/build/index.html");
 });
-appfront.listen(PORT, () =>
-    console.log('application running on localhost:' + PORT)
-);
-
+appfront.listen(PORT);
 var  app = express();
 //configure body-parser for express
 app.use(bodyParser.urlencoded({extended:false}));
@@ -65,6 +62,5 @@ app.post('/api/savefile', (req, res) => {
 app.listen(PORT_API, () =>
      console.log('Running on port' + PORT + ' with API_HOST:'+API_HOST)
 );
-
 // open the app in localhost:3000
 open('http://localhost:3000')
