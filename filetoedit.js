@@ -13,7 +13,7 @@ var appfront = express();
 // create serveur proxy
 var apiProxy = httpProxy.createProxyServer();
 // Serve static resources from 'build' folder
-appfront.use(express.static('build'));
+appfront.use(express.static('client-react/build'));
 // Enable gzip response compression
 appfront.use(compression());
 // Proxy all the api requests
@@ -22,7 +22,7 @@ appfront.all('/api/*', function (req, res) {
 });
 // Otherwise serve index.html
 appfront.get('*', function (req, res) {
-    res.sendfile("/build/index.html");
+    res.sendfile("client-react/build/index.html");
 });
 appfront.listen(PORT);
 var  app = express();
