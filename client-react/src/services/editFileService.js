@@ -9,9 +9,7 @@ export const editFileService = {
     return axios.get(`/api/getcontentfile`)
     .then(resp => {
         return resp;
-    }).catch(error=>{
-         return error;
-    });
+    })
 
 }
 function saveContentFile(state) {
@@ -19,8 +17,5 @@ function saveContentFile(state) {
     return axios.post(`/api/savefile`,state)
     .then(resp => {
         return resp;
-    }).catch(error=>{
-         return error;
-    });
-
+    })
 }

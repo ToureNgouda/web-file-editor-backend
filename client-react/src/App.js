@@ -20,13 +20,13 @@ export default class App extends Component {
         console.log("response",response.data)
         this.setState({ file : response.data});
       }
-      else
-        console.log("erreur coté serveur: ",response)
+    }).catch(error=>{
+      console.log("erreur coté serveur: ",error);
     });
  }
  handleChange = e =>{
   const { name, value } = e.target;
-  let file = this.state.file;
+  let file = {...this.state.file};
   file = {
     name:file.name,
     content:value
@@ -38,12 +38,11 @@ export default class App extends Component {
     if(response.status === 200){
       this.setState({ file: response.data })
       console.log("response file modified",response.data)
-
-      // this.setState({ file : response.data});
     }
-    else
-      console.log("erreur coté serveur: ",response)
-  });
+  }).catch(error=>{
+    return error;
+});
+
  }
   render() {
     return (
